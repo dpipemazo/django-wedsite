@@ -7,7 +7,7 @@ that allows you to flexibly build a custom website for your wedding without
 needing to jump through the typical hoops of getting a site up and running.
 
 You can see an [example of the app running on Heroku](https://wedsite.io)
-and can see the source of that app on [Github](https://github.com/dpipemazo/django-wedsite).
+and can see the source of that app on [Github](https://github.com/dpipemazo/wedsite).
 
 `django-wedsite` ships with default settings/text that can easily be overriden
 in your main web app.
