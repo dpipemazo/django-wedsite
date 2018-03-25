@@ -6,7 +6,7 @@
 that allows you to flexibly build a custom website for your wedding without
 needing to jump through the typical hoops of getting a site up and running.
 
-You can see an [example of the app running on Heroku](https://django-wedsite.herokuapp.com)
+You can see an [example of the app running on Heroku](https://wedsite.io)
 and can see the source of that app on [Github](https://github.com/dpipemazo/django-wedsite).
 
 `django-wedsite` ships with default settings/text that can easily be overriden
@@ -89,6 +89,28 @@ The concept for customizing the whole site would then be to add as much detail
 as you'd like to your `CUSTOMIZED_JSON`. You should find that everything you
 need is in there. See [`settings.py`](wedsite/settings.py) for all of the
 fields you can change.
+
+### Page access restriction
+
+By default, the only page that restricts access to logged-in users is the
+RSVP page. This can be easily overriden with another setting modification.
+
+In your wedsite.conf, you can add
+```
+from wedsite.settings import DEFAULT_ACCESS
+
+CUSTOMIZED_ACCESS = DEFAULT_ACCESS
+CUSTOMIZED_ACCESS['team'] = False
+```
+
+And now in your `settings.py` file, add the following
+```
+from myapp.wedsite_conf import CUSTOMIZED_ACCESS
+
+...
+
+WEDSITE_ACCESS = CUSTOMIZED_ACCESS
+```
 
 ## Package Architecture
 

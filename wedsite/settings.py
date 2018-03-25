@@ -438,3 +438,19 @@ DEFAULT_JSON = {
 	},
 	"favicon" : FAVICON
 }
+
+#
+# Which pages have restricted access
+#
+DEFAULT_ACCESS = {
+    "index" : True,
+	"contact" : True,
+	"story" : True,
+	"wedding" : True,
+	"events" : True,
+	"travel" : True,
+	"explore" : True,
+	"gifts" : True,
+	"team" : True,
+	"traditions" : True,
+}
