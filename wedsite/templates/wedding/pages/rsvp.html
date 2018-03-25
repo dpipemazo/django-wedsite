@@ -1,0 +1,137 @@
+{% extends "wedding/blocks/base.html" %}
+{% load static %}
+
+{% block title %}
+RSVP
+{% endblock %}
+
+{% block content %}
+<div id="contact" class="container-fluid text-center page-container">
+  <h1 class="page-header">RSVP</h1>
+    <div class="row">
+        <div class="col-sm-12 text-justify rsvp-text">
+            {% if rsvp.active %}
+                {{ rsvp.meal_description }}. Special arrangements made for those who note the requirement below. Please use the "special request" box to indicate anything dietary we should know about not covered by the checkboxes. There's also a comment box at the bottom that can be used for sending a personal message to {{ gride.first_name }} and {{ broom.first_name }}. Please submit your response by {{ rsvp.cutoff|date:"F j, Y" }}. Thanks!
+            {% else %}
+                Thank you for submitting your response! The RSVP portion of the site is now closed. Your choices are shown below. We appreciate your understanding that all responses which were left as "unknown" will be treated as "no" as we need to submit final numbers to the venues. To make any changes, please contact {{ gride.first_name }} and {{ broom.first_name }} directly. 
+            {% endif %}
+
+            <br><br>
+        </div>
+    </div>
+
+    {% if updated %}
+        <div class="alert alert-success">
+                <strong>Thank you! RSVP Successfully Updated at {% now "h:i A \o\n F jS, Y" %}</strong>
+        </div>
+    {% endif %}
+
+    {% if new_account %}
+        <div class="alert alert-success">
+                <strong>Thank you for creating an account! Please update your RSVP below</strong>
+        </div>
+    {% endif %}
+
+    {% if not formset %}
+        <div class="alert alert-danger">
+                <strong>Your account doesn't seem to have an RSVP. Please contact the site admin</strong>
+        </div>
+    {% endif %}
+
+    {% for form in formset %}
+        {% if form.errors %}
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <div class="alert alert-danger">
+                        <strong>Item {{ field.label_tag }} {{ error|escape }}</strong>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+                <div class="alert alert-danger">
+                    <strong>{{ error|escape }}</strong>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endfor %}
+
+    <form method="post" action="{% url 'rsvp' %}">
+        {{ formset.management_form }}
+        {% csrf_token %}
+
+        <div class="base-font">
+            <h2 class="text-center"> Attendees </h2>
+
+            <p>
+                {% if rsvp.active %}
+                    Please mark below the attendance and dietary choices for all attendees.
+                    <br>
+                    For information about the events please reference the <a href="{% url 'events' %}">Weekend Events Schedule</a>
+                {% endif %}
+            </p>
+
+        {% for form in formset %}
+            {{ form.id }}
+            <hr>
+            <div class="row base-font" align="center">
+                <div class="col-md-6">
+                    <table>
+                        <tr>
+                            <td class="rsvp-box">Name</td>
+                            <td class="rsvp-box">Attend Rehearsal Dinner?</td>
+                            <td class="rsvp-box">Attend Wedding?</td>
+                            <td class="rsvp-box">Child?</td>
+                        </tr>
+                        <tr>
+                            <td class="rsvp-box">{{ form.name }} </td>
+                            <td class="rsvp-box">{{ form.is_attending_rehearsal }} </td>
+                            <td class="rsvp-box">{{ form.is_attending_wedding }} </td>
+                            <td class="rsvp-box">{{ form.is_child }} </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-md-6">
+                    <table>
+                        <tr>
+                            <td class="rsvp-box">Kosher</td>
+                            <td class="rsvp-box">Vegetarian</td>
+                            <td class="rsvp-box">Vegan</td>
+                            <td class="rsvp-box">Gluten Free</td>
+                            <td class="rsvp-box">Special Request</td>
+                        </tr>
+                        <tr>
+                            <td class="rsvp-box">{{ form.dietary_kosher }} </td>
+                            <td class="rsvp-box">{{ form.dietary_vegetarian }} </td>
+                            <td class="rsvp-box">{{ form.dietary_vegan }} </td>
+                            <td class="rsvp-box">{{ form.dietary_gluten_free }} </td>
+                            <td class="rsvp-box">{{ form.special_requests }} </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+
+        <hr>
+
+        <div class="row base-font" align="center">
+            <h2 class="text-center"> Comment </h2>
+                {% if rsvp.active %}
+                    <p> Please use the section below to add a general comment to your response<br></p>
+                {% else %}
+                    <br>
+                {% endif %}
+
+            {{ rsvp_form.comment }}
+        </div>
+
+        <hr>
+
+        {% if formset %}
+            {% if rsvp.active %}
+                <input type="submit" class="login-button" value="Submit" />
+            {% endif %}
+        {% endif %}
+    </form>
+</div>
+{% endblock %}

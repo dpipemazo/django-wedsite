@@ -1,0 +1,71 @@
+{% extends "wedding/blocks/base.html" %}
+{% load easy_maps_tags %}
+{% load static %}
+
+{% block title %}
+Wedding
+{% endblock %}
+
+{% block content %}
+<div id="wedding" class="container-fluid page-container">
+  <h1 class="page-header text-center">Ceremony and Reception</h1>
+
+  <div class=row>
+    <h1 class="wedding-text text-center">
+        {{ ceremony.date|date:"l F j, Y"}}
+    </h1>
+  </div>
+
+  <!-- Row with wedding map and venue info -->
+  <div class="row">
+    <div class="col-sm-4 text-justify">
+      <h2 class="text-center">{{ ceremony.location.name }}</h2>
+        <dt>Address</dt>
+          <dd style="margin-bottom:8px">
+            {{ ceremony.location.address }}<br>
+            {{ ceremony.location.city }}, {{ ceremony.location.state }} {{ ceremony.location.zip }}
+          </dd>
+        <br>
+        <dt>Directions</dt>
+          <dd style="margin-bottom:8px">
+            <a href={{ ceremony.location.maps_link }}>Maps Link</a><br>
+            {{ ceremony.location.parking }}
+          </dd>
+        <br>
+        <p>
+          Questions? Need help setting up a carpool? Please reach out to your point of contact, who can be found on the 
+          <a href="/contacts">Contacts</a> page.
+        </p>
+    </div>
+    <div class="col-sm-4 text-justify">
+      <h2 class="text-center">Ceremony<br><small class="text-muted">{{ ceremony.date|date:"g:i A"}}</small></h2>
+        <p>
+          <div class="text-center"><b>Please arrive no later than {{ ceremony.arrive_by|date:"g:i A"}}.</b></div>
+          <br>
+          <dt>Attire</dt>
+            <dd style="margin-bottom:8px">
+              {{ ceremony.attire }}
+            </dd>
+          <br>
+          <dt>Details</dt>
+            <dd style="margin-bottom:8px">
+              {{ ceremony.details }}
+            </dd>
+        </p>
+    </div>
+    <div class="col-sm-4 text-justify">
+      <h2 class="text-center">Reception<br><small class="text-muted">{{ reception.date|date:"g:i A"}} - {{ reception.time_end|date:"g:i A"}}</small></h2>
+      <dt>Details</dt>
+        <dd style="margin-bottom:8px">
+          {{ reception.details }}
+        </dd>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <h2 class="text-center">Map</h2>
+      {% easy_map ceremony.location.map_address 100 100 5 using 'wedding/blocks/responsive_map.html' %}
+    </div>
+  </div>
+</div>
+{% endblock %}

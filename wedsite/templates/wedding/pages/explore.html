@@ -1,0 +1,26 @@
+{% extends "wedding/blocks/base.html" %}
+{% load easy_maps_tags %}
+{% load static %}
+
+{% block title %}
+Explore LA!
+{% endblock %}
+
+{% block content %}
+<div id="travel" class="container-fluid base-font page-container">
+  <h1 class="page-header text-center">{{ explore.title }}</h1>
+
+  <!-- Row with wedding map and venue info -->
+  <div class="row">
+    {% for place in explore.areas %}
+      <div class="col-sm-4 text-justify">
+        <h2 class="text-center"> {{ place.name }} </h2>
+
+        {% easy_map place.map_address 100 100 10 using 'wedding/blocks/explore_map.html'%}
+
+        <p> {{ place.description }} </p>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

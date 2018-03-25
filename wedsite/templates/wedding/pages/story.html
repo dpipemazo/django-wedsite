@@ -1,0 +1,28 @@
+{% extends "wedding/blocks/base.html" %}
+{% load static %}
+
+{% block title %}
+Our Story
+{% endblock %}
+
+{% block content %}
+<div id="story" class="container-fluid page-container base-font">
+  <h1 class="page-header text-center">Our Story</h1>
+  {% for item in story %}
+    {% if forloop.counter0 == 0 %}
+      <div class="row">
+    {% elif forloop.counter0|divisibleby:"3" %}
+      </div><div class="row">
+    {% endif %}
+
+    <div class="col-sm-4 text-justify">
+      <h2 class="text-center">{{ item.title }}</h2>
+      <p>{{ item.description }}</p>
+    </div>
+
+    {% if forloop.last %}
+      </div>
+    {% endif %}
+  {% endfor %}
+</div>
+{% endblock %}

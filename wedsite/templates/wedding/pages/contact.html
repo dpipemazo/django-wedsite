@@ -1,0 +1,46 @@
+{% extends "wedding/blocks/base.html" %}
+{% load static %}
+
+{% block title %}
+Contact
+{% endblock %}
+
+{% block content %}
+<div id="contact" class="container-fluid base-font page-container">
+  <h1 class="page-header text-center">Points of Contact</h1>
+
+  <p class="text-center">If you need any help leading up to or during the wedding, please don't hesitate to reach out to our amazing team below!</p>
+
+  <!-- Row with wedding map and venue info -->
+  <div class="row flex-display">
+    {% for person in contact %}
+      <div class="col-sm-4 text-justify flex-col">
+        <h2 class="text-center">{{ person.name }}<br>
+          <small class="text-muted">{{ person.title }}</small>
+        </h2>
+        <p> {{ person.description }}
+        </p>
+        <div class="contact-fill"></div>
+        <table>
+          <tr>
+            <td class="contact-item">
+              <b>email:</b>
+            </td>
+            <td>
+              {{ person.email }}
+            </td>
+          </tr>
+          <tr>
+            <td class="contact-item">
+              <b>phone:</b>
+            </td>
+            <td>
+              {{ person.phone }}
+            </td>
+          </tr>
+        </table>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends "wedding/blocks/base.html" %}
+{% load static %}
+
+{% block title %}
+Travel
+{% endblock %}
+
+{% block content %}
+<div id="travel" class="container-fluid page-container">
+  <h1 class="page-header text-center">Travel & Lodging</h1>
+
+  <!-- Row with wedding map and venue info -->
+  <div class="row">
+    <div class="col-sm-4 base-font text-justify">
+      <h2 class="text-center">Air Travel</h2>
+      <p>{{ travel.airport_info }}</p>
+    </div>
+    <div class="col-sm-4 base-font text-justify">
+      <h2 class="text-center">Hotels</h2>
+      <p>
+        Group rates have been negotiated at the following hotels, but don't feel restricted to these options, as there are many other fantastic hotels in the area.
+      </p>
+      {% for hotel in travel.hotels %}
+        <h3 class="text-center text-muted">
+            {{ hotel.name }}
+            <br>
+            <small>
+              {{ hotel.city }}
+              <br>
+              <a href={{ hotel.yelp_link }}>Yelp Page</a>
+            </small>
+        </h3>
+        <p>
+          <table cellpadding="100">
+            <tr>
+              <td class="hotel-td"><b>Phone</b></td>
+              <td class="hotel-td">{{ hotel.phone }}</td>
+            </tr>
+            <tr>
+              <td class="hotel-td"><b>Mention</b></td>
+              <td class="hotel-td">{{ hotel.mention }}</td>
+            </tr>
+            <tr>
+              <td class="hotel-td"><b>Discount</b></td>
+              <td class="hotel-td">{{ hotel.discount }}</td>
+            </tr>
+          </table>
+          <br>
+          {{ hotel.description }}
+        </p>
+      {% endfor %}
+    </div>
+    <div class="col-sm-4 base-font text-justify">
+      <h2 class="text-center">AirBnB</h2>
+      <p>
+        AirBnB is also a great option for the area, as there are plenty of
+        multi-bedroom homes available for rent over the weekend. Click
+        <a href={{ travel.airbnb_link }}>here</a>
+        to see avilable homes for the weekend.
+      </p>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,80 @@
+{% extends "wedding/blocks/base.html" %}
+{% load static %}
+
+{% block title %}
+Weekend Events
+{% endblock %}
+
+{% block content %}
+<div id="events" class="container-fluid page-container">
+  <h1 class="page-header text-center">Weekend Events</h1>
+
+  <!-- Row with wedding map and venue info -->
+  <div class="row">
+
+    <!-- Rehearsal Dinner -->
+    <div class="col-sm-4 text-justify">
+      <h2 class="text-center">
+        {{ rehearsal.date|date:"l, n/d" }}
+        <br>
+        <small class="text-muted">Rehearsal Dinner</small>
+      </h2>
+      <p>
+        We'll be gathering at {{ rehearsal.date|date:"g:i A"}} at:
+        <br><br>
+        <b>{{ rehearsal.location.name }}</b>
+        <br>
+        {{ rehearsal.location.address }}
+        <br>{{ rehearsal.location.city }}, {{ rehearsal.location.state }} {{ rehearsal.location.zip }}
+        <br>
+        <a href={{ rehearsal.location.maps_link }}>Map Link</a>
+        <br><br>
+        {{ rehearsal.additional_info }}
+      </p>
+    </div>
+
+    <!-- Wedding Ceremony -->
+    <div class="col-sm-4 text-justify">
+      <h2 class="text-center">
+        {{ ceremony.date|date:"l, n/d" }}
+        <br>
+        <small class="text-muted">Wedding Ceremony</small>
+      </h2>
+      <p>
+        We'll be gathering at {{ ceremony.date|date:"g:i A"}} at:
+        <br><br>
+        <b>{{ ceremony.location.name }}</b>
+        <br>
+        {{ ceremony.location.address }}
+        <br>{{ ceremony.location.city }}, {{ ceremony.location.state }} {{ ceremony.location.zip }}
+        <br>
+        <a href={{ ceremony.location.maps_link }}>Map Link</a>
+        <br><br>
+        {{ ceremony.additional_info }}
+      </p>
+    </div>
+
+    <!-- Wedding Reception -->
+    <div class="col-sm-4 text-justify">
+      <h2 class="text-center">
+        {{ reception.date|date:"l, n/d" }}
+        <br>
+        <small class="text-muted">Wedding Reception</small>
+      </h2>
+      <p>
+        We'll be gathering at {{ reception.date|date:"g:i A"}} at:
+        <br><br>
+        <b>{{ reception.location.name }}</b>
+        <br>
+        {{ reception.location.address }}
+        <br>{{ reception.location.city }}, {{ reception.location.state }} {{ reception.location.zip }}
+        <br>
+        <a href={{ reception.location.maps_link }}>Map Link</a>
+        <br><br>
+        {{ reception.additional_info }}
+      </p>
+    </div>
+    
+  </div>
+</div>
+{% endblock %}

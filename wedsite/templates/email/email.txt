@@ -1,0 +1,48 @@
+{% load static %}
+
+Dear {{ first_name }},
+
+We can't wait to celebrate with you in just a few weeks!
+
+Please find below a confirmation of your response from the web site as well as additional information about the events.
+
+{% if attending_rehearsal %}
+~Rehearsal~
+
+We have the following people attending our Rehearsal dinner on $DATE:
+{% for person in attending_rehearsal %}
+    - {{ person.name }}
+{% endfor %}
+
+We'll be gathering at $TIME at:
+$REHEARSAL VENUE
+$ADDRESS
+$CITY, $STATE $ZIP
+
+$PARKING INFO
+
+{% endif %}
+
+{% if attending_wedding %}
+~Wedding Ceremony and Reception~
+
+We have the following people attending our wedding on $DATE:
+{% for person in attending_wedding %}
+    - {{ person.name }}
+{% endfor %}
+
+The ceremony and reception are both being held at at:
+$VENUE
+$ADDRESS
+$CITY, $STATE $ZIP
+
+Please arrive no later than $TIME as the ceremony will begin promptly at $TIME
+
+$PARKING INFO
+{% endif %}
+
+~General Information~
+Please feel free to reply directly to this email with any comments, questions or concerns about the wedding or events. If the information for your reservation is incorrect please let us know as soon as possible. This email was automatically generated, but the responses go directly to our inbox :).
+
+Best,
+$NEWLYWEDS

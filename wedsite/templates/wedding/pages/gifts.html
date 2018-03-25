@@ -1,0 +1,37 @@
+{% extends "wedding/blocks/base.html" %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+{% block title %}
+Gifts
+{% endblock %}
+
+{% block content %}
+<div id="gifts" class="container-fluid page-container">
+  <h1 class="page-header text-center">Gifts</h1>
+
+  {% for gift in gifts %}
+    <div class="row padded-row">
+      <div class="col-sm-12 base-font text-justify">
+        <h2 class="text-center">{{ gift.name }}</h2>
+        <p>{{ gift.description }}</p>
+
+        {% if gift.image %}
+          <br><br>
+          <div class="text-center">
+            <a href={{ gift.image.hyperlink }}><image src="{% static gift.image.static_img %}" class="img-responsive rounded half-width-image float-center" alt="Gift Image"/>
+            </a>
+          </div>
+        {% elif gift.video %}
+          <div class="text-center">
+            <iframe src={{ gift.video.hyperlink }} frameborder="0"
+              allowfullscreen></iframe>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}

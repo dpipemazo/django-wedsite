@@ -1,0 +1,31 @@
+{% extends "wedding/blocks/base.html" %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+{% block title %}
+Wedding Traditions
+{% endblock %}
+
+{% block content %}
+<div id="gifts" class="container-fluid page-container">
+  <h1 class="page-header text-center">Wedding Traditions</h1>
+
+  {% for item in traditions %}
+    <div class="row padded-row">
+      <div class="col-sm-12 base-font text-justify">
+        <h2 class="text-center">{{ item.name }}</h2>
+        <dl>
+          {% for tradition in item.items %}
+            <dt>{{ tradition.name }}</dt>
+            <dd style="margin-bottom:8px">
+              {{ tradition.description }}
+            </dd>
+          {% endfor %}
+        </dl>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends "wedding/blocks/base.html" %}
+{% load easy_maps_tags %}
+{% load static %}
+
+{% block title %}
+{{gride.first_initial}}&#x2764;{{broom.first_initial}}
+{% endblock %}
+
+{% block style %}
+  .main_jumbotron {
+      background-image: url({% static landing_image %});
+      background-size: cover;
+      background-position: top; /* Centers - top to avoid head chop-off */
+      height: 100vh;
+      margin-bottom:-50px;
+  }
+{% endblock %}
+
+{% block content %}
+<!-- Intro picture/info -->
+<div class="main_jumbotron jumbotron">
+  <div class="container-fluid text-center">
+    <h1 class="main-header-text">
+      {{ gride.first_name }} {{ gride.last_name }}
+        <br>
+      <span class="glyphicon glyphicon-heart" style="font-size:6vmin"></span>
+        <br>
+      {{ broom.first_name }} {{ broom.last_name }}
+    </h1>
+    <p class="venue-date-text">
+    {{ ceremony.date|date:"m "}} · {{ ceremony.date|date:"d" }} · {{ ceremony.date|date:"y" }}
+    </br>
+    {{ ceremony.location.name }} - {{ ceremony.location.city }} - {{ ceremony.location.state }}
+    </p>
+  </div>
+</div>
+{% endblock %}
