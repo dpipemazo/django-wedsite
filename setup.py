@@ -9,7 +9,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='django-wedsite',
-    version='0.1',
+    version='0.0.1',
     packages=find_packages(),
     include_package_data=True,
     license="GPLv3",
@@ -19,7 +19,7 @@ setup(
     author='Dan Pipe-Mazo',
     author_email='dpipemazo@gmail.com',
     classifiers=[
-        'License :: OSI Approved :: GNU General Public License v3 (GPLv3)'
+        'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
         'Environment :: Web Environment',
         'Framework :: Django',
         'Framework :: Django :: 1.11',  # replace "X.Y" as appropriate
