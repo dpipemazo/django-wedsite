@@ -3,7 +3,7 @@ Most, if not all of the user-customizable information for the
 wedsite can go in here. This makes it easier to port the
 project between weddings. This was created in a rough first
 pass, please keep updating as time goes on such that when
-we go from one friend's site to another we don't need to
+we go from one friend's site to another we don't need to do
 much other than change this configuration file.
 
 For the sake of gender-neutrality we'll call the two people
@@ -139,6 +139,10 @@ POINTS_OF_CONTACT = (
 		"phone" : "(626)-395-1712"
 	},
 )
+
+# Designated email for website trouble.
+#   If you're reading this you should probably just put your email address here.
+ADMIN_EMAIL = "webmaster@wedsite.io"
 
 #
 #  Rehearsal Dinner info.
@@ -436,7 +440,8 @@ DEFAULT_JSON = {
 		"hotels" : HOTEL_ITEMS,
 		"airbnb" : AIRBNB_LINK,
 	},
-	"favicon" : FAVICON
+	"favicon" : FAVICON,
+        "admin_email": ADMIN_EMAIL,
 }
 
 #
@@ -454,3 +459,7 @@ DEFAULT_ACCESS = {
 	"team" : True,
 	"traditions" : True,
 }
+
+# if an app does not override WEDSITE_JSON and ACCESS, use the DEFAULT_s
+WEDSITE_JSON = DEFAULT_JSON
+WEDSITE_ACCESS = DEFAULT_ACCESS
