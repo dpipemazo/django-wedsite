@@ -7,19 +7,30 @@
 {% endblock %}
 
 {% block style %}
-  .main_jumbotron {
-      background-image: url({% static landing_image %});
-      background-size: cover;
-      background-position: top; /* Centers - top to avoid head chop-off */
-      height: 100vh;
-      margin-bottom:-50px;
-  }
+    .main-jumbotron {
+        background-image: url({% static landing_page.background_image %});
+        background-size: cover;
+        background-position: top; /* Centers - top to avoid head chop-off */
+        height: 100vh;
+        margin-bottom:-50px;
+        color: {{ landing_page.info_color }};
+    }
+    .jumbotron-info {
+        {% if landing_page.info_pos == "center" %}
+        margin: 0 auto;
+        {% elif landing_page.info_pos == "left" %}
+        margin-right: 66.7%;
+        {% elif landing_page.info_pos == "right" %}
+        margin-left: 66.7%;
+        {% endif %}
+        margin-top: {{ landing_page.info_margin_top }};
+    }
 {% endblock %}
 
 {% block content %}
 <!-- Intro picture/info -->
-<div class="main_jumbotron jumbotron">
-  <div class="container-fluid text-center">
+<div class="main-jumbotron jumbotron">
+  <div class="jumbotron-info text-center">
     <h1 class="main-header-text">
       {{ gride.first_name }} {{ gride.last_name }}
         <br>

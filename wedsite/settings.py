@@ -261,7 +261,13 @@ GIFT_OPTIONS = (
 #
 # Main Page Info
 #
-LANDING_IMAGE = "images/main_jumbotron.jpg"
+LANDING_PAGE = {
+    "background_image": "images/main_jumbotron.jpg",
+    # which horizontal third should info be placed in? can be "left" or "right"
+    "info_pos": "center",
+    "info_margin_top": "100px", # vertical position of top of info box
+    "info_color": "#fff",
+}
 
 #
 # RSVP Page Info
@@ -426,7 +432,7 @@ DEFAULT_JSON = {
 		),
 	},
 	"gifts" : GIFT_OPTIONS,
-	"landing_image" : LANDING_IMAGE,
+	"landing_page" : LANDING_PAGE,
 	"rsvp" : {
 		"cutoff" : RSVP_CUTOFF_DATE,
 		"active" : RSVP_ACTIVE,
