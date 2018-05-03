@@ -448,24 +448,23 @@ DEFAULT_JSON = {
 	},
 	"favicon" : FAVICON,
         "admin_email": ADMIN_EMAIL,
+        # Which pages have restricted access
+        #   Valid values are 'all', 'login', and False for no access at all
+        #   False may be desired if you don't want to use a page at all for the duration
+        #   of your wedding, or if it simply doesn't exist yet (e.g. for save the dates)
+        "access": {
+            "index" : "all",
+            "contact" : "login",
+            "story" : "login",
+            "wedding" : False,
+            "events" : False,
+            "travel" : "login",
+            "explore" : False,
+            "gifts" : False,
+            "team" : False,
+            "traditions" : False,
+        },
 }
 
-#
-# Which pages have restricted access
-#
-DEFAULT_ACCESS = {
-    "index" : True,
-	"contact" : True,
-	"story" : True,
-	"wedding" : True,
-	"events" : True,
-	"travel" : True,
-	"explore" : True,
-	"gifts" : True,
-	"team" : True,
-	"traditions" : True,
-}
-
-# if an app does not override WEDSITE_JSON and ACCESS, use the DEFAULT_s
+# if an app does not override WEDSITE_JSON, use DEFAULT_JSON
 WEDSITE_JSON = DEFAULT_JSON
-WEDSITE_ACCESS = DEFAULT_ACCESS
