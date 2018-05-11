@@ -8,13 +8,18 @@
 
 {% block style %}
     .main-jumbotron {
+        {% if request.user_agent.is_mobile %}
+        background-image: url({% static landing_page.mobile.background_image %});
+        {% else %}
         background-image: url({% static landing_page.background_image %});
+        {% endif %}
         background-size: cover;
         background-position: top; /* Centers - top to avoid head chop-off */
         height: 100vh;
         margin-bottom:-50px;
         color: {{ landing_page.info_color }};
     }
+    {% if not request.user_agent.is_mobile %}
     .jumbotron-info {
         {% if landing_page.info_pos == "center" %}
         margin: 0 auto;
@@ -25,6 +30,7 @@
         {% endif %}
         margin-top: {{ landing_page.info_margin_top }};
     }
+    {% endif %}
 {% endblock %}
 
 {% block content %}

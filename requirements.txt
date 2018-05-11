@@ -10,3 +10,4 @@ django-tz-detect==0.2.8
 django-inlinecss==0.1.2
 lorem
 django-appconf
+django-user_agents
