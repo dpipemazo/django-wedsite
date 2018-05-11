@@ -317,6 +317,7 @@ STORY_ITEMS = (
 #
 # Credits for the team page
 #
+CREDITS_TEXT = "Thank you to all of our family and friends who have helped make our wedding special! We would like to thank a few of our friends whose work you all have seen."
 CREDITS_ITEMS = (
 	{
 		"name" : "Awesome Friend 1",
@@ -439,7 +440,10 @@ DEFAULT_JSON = {
 		"meal_description" : MEAL_DESCRIPTION,
 	},
 	"story" : STORY_ITEMS,
-	"credits" : CREDITS_ITEMS,
+	"credits" : {
+            "text": CREDITS_TEXT,
+            "people": CREDITS_ITEMS,
+        },
 	"traditions" : TRADITIONS_ITEMS,
 	"travel" : {
 		"airport_info" : AIRPORT_INFO,
