@@ -380,7 +380,8 @@ HOTEL_ITEMS = (
 	{
 		"name" : "Hotel 1",
 		"city" : "Romanticville",
-		"yelp" : "https://www.yelp.com/",
+                "link_title" : "Yelp Page",
+		"link" : "https://www.yelp.com/",
 		"phone" : "(626)-395-1712",
 		"mention" : "Group Discount Name",
 		"discount" : "100%",
@@ -390,7 +391,8 @@ HOTEL_ITEMS = (
 	{
 		"name" : "Hotel 2",
 		"city" : "Romanticville",
-		"yelp" : "https://www.yelp.com/",
+                "link_title" : "Yelp Page",
+		"link" : "https://www.yelp.com/",
 		"phone" : "(626)-395-1712",
 		"mention" : "Group Discount Name",
 		"discount" : "100%",
@@ -448,7 +450,7 @@ DEFAULT_JSON = {
 	"travel" : {
 		"airport_info" : AIRPORT_INFO,
 		"hotels" : HOTEL_ITEMS,
-		"airbnb" : AIRBNB_LINK,
+		"airbnb_link" : AIRBNB_LINK,
 	},
 	"favicon" : FAVICON,
         "admin_email": ADMIN_EMAIL,
