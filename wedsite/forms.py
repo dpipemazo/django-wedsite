@@ -96,8 +96,8 @@ class CreateUserForm(forms.Form):
 
     def get_address(self):
         return self.cleaned_data.get('invite_street1') + " " + \
-            self.cleaned_data.get('invite_street2', '') + " " + \
-            self.cleaned_data.get('invite_city') + " " + \
+            self.cleaned_data.get('invite_street2', '') + ", " + \
+            self.cleaned_data.get('invite_city') + ", " + \
             self.cleaned_data.get('invite_state') + " " + \
             self.cleaned_data.get('invite_zip')
 
@@ -138,6 +138,7 @@ class CreateUserForm(forms.Form):
         address = self.get_address()
         last_name = self.cleaned_data.get('last_name')
         first_name = self.cleaned_data.get('first_name')
+        full_name = f'{first_name} {last_name}'
 
         addr_nums = strip_address(address)
         if not addr_nums:
@@ -150,10 +151,19 @@ class CreateUserForm(forms.Form):
         rsvps = RSVP.objects.all().filter(last_names__icontains=last_name).filter(profile=None)
         found_rsvp = None
         for rsvp in rsvps:
-            rsvp_nums = strip_address(rsvp.invite_address)
-            if (rsvp_nums == addr_nums):
-                found_rsvp = rsvp
-                break
+            if rsvp.invite_address:
+                rsvp_nums = strip_address(rsvp.invite_address)
+                if (rsvp_nums == addr_nums):
+                    found_rsvp = rsvp
+                    break
+            else:
+                # TODO should probably just do a join initially rather than this
+                rsvp_persons = RSVPPerson.objects.all().filter(rsvp=rsvp)
+                for rsvp_person in rsvp_persons:
+                    # don't have an address in our records => match by full name
+                    if full_name.lower() == rsvp_person.name.lower():
+                        found_rsvp = rsvp
+                        break
 
         if not found_rsvp:
             raise forms.ValidationError(
@@ -185,18 +195,7 @@ class RSVPForm(forms.ModelForm):
 
 # Formset for all RSVP Persons
 RSVPPersonFormSet = inlineformset_factory(RSVP, RSVPPerson,
-    fields=(
-        'name',
-        'is_attending_rehearsal',
-        'is_attending_wedding',
-        'is_child',
-        'dietary_kosher',
-        'dietary_vegetarian',
-        'dietary_vegan',
-        'dietary_gluten_free',
-        'dietary_other',
-        'special_requests',
-    ),
+    fields=list(settings.WEDSITE_JSON['rsvp']['fields'].keys()),
     extra=0,
     can_delete=False)
 

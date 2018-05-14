@@ -440,6 +440,22 @@ DEFAULT_JSON = {
 		"cutoff" : RSVP_CUTOFF_DATE,
 		"active" : RSVP_ACTIVE,
 		"meal_description" : MEAL_DESCRIPTION,
+                "comments_prompt": "Please use the section below to add a general comment to your response.",
+                # NB these fields must correspond to acutal columns. you can
+                # relabel/filter them, but don't add new ones without changing
+                # the RSVPPerson model as well
+                "fields": {
+                    "name": "Name",
+                    "is_attending_rehearsal": "Attend Rehearsal Dinner?",
+                    "is_attending_wedding": "Attend Wedding?",
+                    "is_child": "Child?",
+                    "dietary_vegetarian": "Vegetarian",
+                    "dietary_vegan": "Vegan",
+                    "dietary_kosher": "Kosher",
+                    "dietary_gluten_free": "Gluten Free",
+                    "dietary_other": "Other Dietary Restriction",
+                    "special_requests": "Special Request",
+                },
 	},
 	"story" : STORY_ITEMS,
 	"credits" : {
