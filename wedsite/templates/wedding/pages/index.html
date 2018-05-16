@@ -8,7 +8,7 @@
 
 {% block style %}
     .main-jumbotron {
-        {% if request.user_agent.is_mobile %}
+        {% if request.user_agent.is_mobile and landing_page.mobile %}
         background-image: url({% static landing_page.mobile.background_image %});
         {% else %}
         background-image: url({% static landing_page.background_image %});
@@ -19,7 +19,13 @@
         margin-bottom:-50px;
         color: {{ landing_page.info_color }};
     }
-    {% if not request.user_agent.is_mobile %}
+    {% if request.user_agent.is_mobile %}
+    {% if landing_page.mobile %}
+    .jumbotron-info {
+        margin-top: {{ landing_page.mobile.info_margin_top }};
+    }
+    {% endif %}
+    {% else %}
     .jumbotron-info {
         {% if landing_page.info_pos == "center" %}
         margin: 0 auto;
