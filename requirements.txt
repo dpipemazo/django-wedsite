@@ -4,7 +4,7 @@ gunicorn==19.6.0
 psycopg2==2.7.3
 whitenoise==3.3.0
 requests==2.9.1
-django-easy-maps==0.9.3
+-e git+https://github.com/rylz/django-easy-maps.git@ba9eb05be7eb0fe09888ccc5bef211faeb3873e3#egg=django-wedsite
 raven>=3
 django-tz-detect==0.2.8
 django-inlinecss==0.1.2
