@@ -5,7 +5,7 @@ from django.utils.encoding import smart_str
 from geopy import geocoders
 from geopy.exc import GeocoderServiceError
 
-from .conf import settings
+from wedsite import settings
 
 
 class Error(Exception):
