@@ -9,7 +9,7 @@ Please find below a confirmation of your response from the web site as well as a
 {% if attending_rehearsal %}
 ~Rehearsal~
 
-We have the following people attending our Rehearsal dinner on $DATE:
+We have the following people attending our Rehearsal Dinner on $DATE:
 {% for person in attending_rehearsal %}
     - {{ person.name }}
 {% endfor %}

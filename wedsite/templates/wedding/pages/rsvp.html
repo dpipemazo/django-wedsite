@@ -77,34 +77,70 @@ RSVP
                 <div class="col-md-6">
                     <table>
                         <tr>
-                            <td class="rsvp-box">Name</td>
-                            <td class="rsvp-box">Attend Rehearsal Dinner?</td>
-                            <td class="rsvp-box">Attend Wedding?</td>
-                            <td class="rsvp-box">Child?</td>
+                            {% if rsvp.fields.name %}
+                            <td class="rsvp-box">{{ rsvp.fields.name }}</td>
+                            {% endif %}
+                            {% if rsvp.fields.is_attending_rehearsal %}
+                            <td class="rsvp-box">{{ rsvp.fields.is_attending_rehearsal }}</td>
+                            {% endif %}
+                            {% if rsvp.fields.is_attending_wedding %}
+                            <td class="rsvp-box">{{ rsvp.fields.is_attending_wedding }}</td>
+                            {% endif %}
+                            {% if rsvp.fields.is_child %}
+                            <td class="rsvp-box">{{ rsvp.fields.is_child }}</td>
+                            {% endif %}
                         </tr>
                         <tr>
+                            {% if rsvp.fields.name %}
                             <td class="rsvp-box">{{ form.name }} </td>
+                            {% endif %}
+                            {% if rsvp.fields.is_attending_rehearsal %}
                             <td class="rsvp-box">{{ form.is_attending_rehearsal }} </td>
+                            {% endif %}
+                            {% if rsvp.fields.is_attending_wedding %}
                             <td class="rsvp-box">{{ form.is_attending_wedding }} </td>
+                            {% endif %}
+                            {% if rsvp.fields.is_child %}
                             <td class="rsvp-box">{{ form.is_child }} </td>
+                            {% endif %}
                         </tr>
                     </table>
                 </div>
                 <div class="col-md-6">
                     <table>
                         <tr>
-                            <td class="rsvp-box">Kosher</td>
-                            <td class="rsvp-box">Vegetarian</td>
-                            <td class="rsvp-box">Vegan</td>
-                            <td class="rsvp-box">Gluten Free</td>
-                            <td class="rsvp-box">Special Request</td>
+                            {% if rsvp.fields.dietary_vegetarian %}
+                            <td class="rsvp-box">{{ rsvp.fields.dietary_vegetarian }}</td>
+                            {% endif %}
+                            {% if rsvp.fields.dietary_vegan %}
+                            <td class="rsvp-box">{{ rsvp.fields.dietary_vegan }}</td>
+                            {% endif %}
+                            {% if rsvp.fields.dietary_gluten_free %}
+                            <td class="rsvp-box">{{ rsvp.fields.dietary_gluten_free }}</td>
+                            {% endif %}
+                            {% if rsvp.fields.dietary_kosher %}
+                            <td class="rsvp-box">{{ rsvp.fields.dietary_kosher }}</td>
+                            {% endif %}
+                            {% if rsvp.fields.special_requests %}
+                            <td class="rsvp-box">{{ rsvp.fields.special_requests }}</td>
+                            {% endif %}
                         </tr>
                         <tr>
-                            <td class="rsvp-box">{{ form.dietary_kosher }} </td>
+                            {% if rsvp.fields.dietary_vegetarian %}
                             <td class="rsvp-box">{{ form.dietary_vegetarian }} </td>
+                            {% endif %}
+                            {% if rsvp.fields.dietary_vegan %}
                             <td class="rsvp-box">{{ form.dietary_vegan }} </td>
+                            {% endif %}
+                            {% if rsvp.fields.dietary_gluten_free %}
                             <td class="rsvp-box">{{ form.dietary_gluten_free }} </td>
+                            {% endif %}
+                            {% if rsvp.fields.dietary_kosher %}
+                            <td class="rsvp-box">{{ form.dietary_kosher }} </td>
+                            {% endif %}
+                            {% if rsvp.fields.special_requests %}
                             <td class="rsvp-box">{{ form.special_requests }} </td>
+                            {% endif %}
                         </tr>
                     </table>
                 </div>
@@ -117,7 +153,7 @@ RSVP
         <div class="row base-font" align="center">
             <h2 class="text-center"> Comment </h2>
                 {% if rsvp.active %}
-                    <p> Please use the section below to add a general comment to your response<br></p>
+                <p>{{ rsvp.comments_prompt }}<br></p>
                 {% else %}
                     <br>
                 {% endif %}

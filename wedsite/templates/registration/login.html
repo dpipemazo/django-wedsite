@@ -15,14 +15,14 @@ Login
         </div>
     {% elif next != "/" %}
         <div class="alert alert-warning">
-            <strong>Please log in or create an account to view this page. Thank you!</strong>
+            <strong>Please log in or RSVP to view this page. Thank you!</strong>
         </div>
     {% endif %}
 
     <div class="row">
         <div class="col-sm-6 base-font text-center">
             <div align="center">
-                <h2> Existing Users </h2>
+                <h2>Already RSVP'd? Login</h2>
                     <form method="post" action="{% url 'login' %}">
                     {% csrf_token %}
                     <table>
@@ -45,12 +45,13 @@ Login
         </div>
         <div class="col-sm-6 base-font text-center">
             <div align="center">
-                <h2> New Users </h2>
+                <h2>RSVP</h2>
                     <p>
                         Welcome to our wedding site!
                         <br><br>
-                        Please click <a href="{% url 'create-account' %}">here</a> to create<br>
-                        a new account so that you can submit your RSVP.
+                        <a class="btn btn-primary" href="{% url 'create-account' %}">Submit your RSVP</a>
+                        <br><br>
+                        Whether you can join us for the wedding or not, we need to find your RSVP to allow access to the more personal parts of the website.
                     </p>
             </div>
         </div>

@@ -3,7 +3,7 @@ Most, if not all of the user-customizable information for the
 wedsite can go in here. This makes it easier to port the
 project between weddings. This was created in a rough first
 pass, please keep updating as time goes on such that when
-we go from one friend's site to another we don't need to
+we go from one friend's site to another we don't need to do
 much other than change this configuration file.
 
 For the sake of gender-neutrality we'll call the two people
@@ -140,6 +140,10 @@ POINTS_OF_CONTACT = (
 	},
 )
 
+# Designated email for website trouble.
+#   If you're reading this you should probably just put your email address here.
+ADMIN_EMAIL = "webmaster@wedsite.io"
+
 #
 #  Rehearsal Dinner info.
 #
@@ -257,7 +261,13 @@ GIFT_OPTIONS = (
 #
 # Main Page Info
 #
-LANDING_IMAGE = "images/main_jumbotron.jpg"
+LANDING_PAGE = {
+    "background_image": "images/main_jumbotron.jpg",
+    # which horizontal third should info be placed in? can be "left" or "right"
+    "info_pos": "center",
+    "info_margin_top": "100px", # vertical position of top of info box
+    "info_color": "#fff",
+}
 
 #
 # RSVP Page Info
@@ -307,6 +317,7 @@ STORY_ITEMS = (
 #
 # Credits for the team page
 #
+CREDITS_TEXT = "Thank you to all of our family and friends who have helped make our wedding special! We would like to thank a few of our friends whose work you all have seen."
 CREDITS_ITEMS = (
 	{
 		"name" : "Awesome Friend 1",
@@ -369,7 +380,8 @@ HOTEL_ITEMS = (
 	{
 		"name" : "Hotel 1",
 		"city" : "Romanticville",
-		"yelp" : "https://www.yelp.com/",
+                "link_title" : "Yelp Page",
+		"link" : "https://www.yelp.com/",
 		"phone" : "(626)-395-1712",
 		"mention" : "Group Discount Name",
 		"discount" : "100%",
@@ -379,7 +391,8 @@ HOTEL_ITEMS = (
 	{
 		"name" : "Hotel 2",
 		"city" : "Romanticville",
-		"yelp" : "https://www.yelp.com/",
+                "link_title" : "Yelp Page",
+		"link" : "https://www.yelp.com/",
 		"phone" : "(626)-395-1712",
 		"mention" : "Group Discount Name",
 		"discount" : "100%",
@@ -422,35 +435,58 @@ DEFAULT_JSON = {
 		),
 	},
 	"gifts" : GIFT_OPTIONS,
-	"landing_image" : LANDING_IMAGE,
+	"landing_page" : LANDING_PAGE,
 	"rsvp" : {
 		"cutoff" : RSVP_CUTOFF_DATE,
 		"active" : RSVP_ACTIVE,
 		"meal_description" : MEAL_DESCRIPTION,
+                "comments_prompt": "Please use the section below to add a general comment to your response.",
+                # NB these fields must correspond to acutal columns. you can
+                # relabel/filter them, but don't add new ones without changing
+                # the RSVPPerson model as well
+                "fields": {
+                    "name": "Name",
+                    "is_attending_rehearsal": "Attend Rehearsal Dinner?",
+                    "is_attending_wedding": "Attend Wedding?",
+                    "is_child": "Child?",
+                    "dietary_vegetarian": "Vegetarian",
+                    "dietary_vegan": "Vegan",
+                    "dietary_kosher": "Kosher",
+                    "dietary_gluten_free": "Gluten Free",
+                    "dietary_other": "Other Dietary Restriction",
+                    "special_requests": "Special Request",
+                },
 	},
 	"story" : STORY_ITEMS,
-	"credits" : CREDITS_ITEMS,
+	"credits" : {
+            "text": CREDITS_TEXT,
+            "people": CREDITS_ITEMS,
+        },
 	"traditions" : TRADITIONS_ITEMS,
 	"travel" : {
 		"airport_info" : AIRPORT_INFO,
 		"hotels" : HOTEL_ITEMS,
-		"airbnb" : AIRBNB_LINK,
+		"airbnb_link" : AIRBNB_LINK,
 	},
-	"favicon" : FAVICON
+	"favicon" : FAVICON,
+        "admin_email": ADMIN_EMAIL,
+        # Which pages have restricted access
+        #   Valid values are 'all', 'login', and False for no access at all
+        #   False may be desired if you don't want to use a page at all for the duration
+        #   of your wedding, or if it simply doesn't exist yet (e.g. for save the dates)
+        "access": {
+            "index" : "all",
+            "contact" : "login",
+            "story" : "login",
+            "wedding" : False,
+            "events" : False,
+            "travel" : "login",
+            "explore" : False,
+            "gifts" : False,
+            "team" : False,
+            "traditions" : False,
+        },
 }
 
-#
-# Which pages have restricted access
-#
-DEFAULT_ACCESS = {
-    "index" : True,
-	"contact" : True,
-	"story" : True,
-	"wedding" : True,
-	"events" : True,
-	"travel" : True,
-	"explore" : True,
-	"gifts" : True,
-	"team" : True,
-	"traditions" : True,
-}
+# if an app does not override WEDSITE_JSON, use DEFAULT_JSON
+WEDSITE_JSON = DEFAULT_JSON

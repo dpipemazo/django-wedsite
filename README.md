@@ -55,6 +55,23 @@ urlpatterns = [
 ]
 ```
 
+### Initialize Database
+
+In order to run migrations and initialize the database, you will first need to
+set a `SECRET_KEY` by doing the following in root `django-wedsite` directory:
+```
+$ echo "DJANGO_SECRET_KEY='$(python -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())')'" >> .env
+$ source .env
+$ export DJANGO_SECRET_KEY
+```
+
+Now, all you need to do to initialize the database is run the django migrations,
+and while you're at it, create a superuser for later use.
+```
+$ python manage.py migrate
+$ python manage.py createsuperuser
+```
+
 ### Launch
 
 With that done you should be all set and your site should be serving
@@ -69,9 +86,10 @@ can use any name, but something like `wedsite_conf.py` is recommended. In this
 file, try out the following code:
 
 ```
+from copy import deepcopy
 from wedsite.settings import DEFAULT_JSON
 
-CUSTOMIZED_JSON = DEFAULT_JSON
+CUSTOMIZED_JSON = deepcopy(DEFAULT_JSON)
 CUSTOMIZED_JSON['broom']['last_name'] = "Pandas"
 ```
 
@@ -95,21 +113,9 @@ fields you can change.
 By default, the only page that restricts access to logged-in users is the
 RSVP page. This can be easily overriden with another setting modification.
 
-In your wedsite.conf, you can add
+In your `wedsite_conf.py`, you can add
 ```
-from wedsite.settings import DEFAULT_ACCESS
-
-CUSTOMIZED_ACCESS = DEFAULT_ACCESS
-CUSTOMIZED_ACCESS['team'] = False
-```
-
-And now in your `settings.py` file, add the following
-```
-from myapp.wedsite_conf import CUSTOMIZED_ACCESS
-
-...
-
-WEDSITE_ACCESS = CUSTOMIZED_ACCESS
+CUSTOMIZED_JSON['team'] = 'login'
 ```
 
 ## Package Architecture
@@ -178,9 +184,9 @@ address and contact info using this profile but those features aren't yet built.
 A custom account creation view has been built such that only users who have
 a valid RSVP in the system can create an account. The site currently checks
 a user's last name and the numerical digits of their address for a match
-in the "unclaimed" RSVPs in the database. An "uncliamed" RSVP is an RSVP
+in the "unclaimed" RSVPs in the database. An "unclaimed" RSVP is an RSVP
 which does not have a Foreign Key to a user. The admin of the site needs to
-manually enter all of their  
+manually enter all of their guests into the database as described below.
 
 #### RSVP Models
 
@@ -207,11 +213,12 @@ Each RSVP Person has the following important fields
 |-------|-------------|
 | `name` | Person's Name |
 
-Along with the above fields, the RSVP person model should and can be modified to contain
+Along with the above fields, the RSVP person model can and should be modified to contain
 any/all of the information you'd like to gather from the person when they submit their 
 response on the web site. The default RSVP person contains the following additional fields
 
 | Field | Type | Description |
+|-------|------|-------------|
 | `is_attending_rehearsal` | Boolean | Whether or not they're attending the rehearsal dinner |
 | `is_attending_wedding` | Boolean | Whether or not they're attending the wedding |
 | `is_child` | Boolean | Whether or not the guest counts as a child |
@@ -229,4 +236,3 @@ https://my_site/admin
 using your superuser credentials. Then go to the `RSVP` page and you can manually add
 RSVPs. This can indeed be a bit tedious; it would be nice to create a management command
 to take in a CSV or JSON data file and make all of the RSVP objects.
-

@@ -36,6 +36,10 @@ class WedsiteView(View):
 class StaticView(WedsiteView):
     """
     Basic static view. Shows a template back
+
+    Will redirect to login page if the user isn't authenticated, otherwise will
+    allow them to view the requested page.
+
     """
     template = None
 
@@ -56,8 +60,10 @@ class StaticViewNoAuth(WedsiteView):
 
 class RSVPView(WedsiteView):
     """
-    RSVP View. Will redirect to login page if the user isn't authenticated,
-    otherwise will allow them to use the RSVP system
+    RSVP View.
+
+    Handles the form data for RSVPs.
+
     """
     def get_object(self, queryset=None):
         try:
@@ -96,7 +102,7 @@ class RSVPView(WedsiteView):
             new_account = True if (request.GET.get('new_account', '') == 'y') else False
             formset = RSVPPersonFormSet(instance=rsvp, prefix='people') if rsvp else []
 
-            # Need to make the formset read-only since if locked the RSVPs
+            # Need to make the formset read-only if RSVPs are already locked.
             if not settings.WEDSITE_JSON['rsvp']['active']:
                 for form in formset:
                     for field in form.fields:
