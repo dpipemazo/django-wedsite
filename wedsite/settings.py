@@ -476,15 +476,15 @@ DEFAULT_JSON = {
         #   of your wedding, or if it simply doesn't exist yet (e.g. for save the dates)
         "access": {
             "index" : "all",
-            "contact" : "login",
-            "story" : "login",
-            "wedding" : False,
-            "events" : False,
-            "travel" : "login",
-            "explore" : False,
-            "gifts" : False,
-            "team" : False,
-            "traditions" : False,
+            "contact" : "all",
+            "story" : "all",
+            "wedding" : "all",
+            "events" : "all",
+            "travel" : "all",
+            "explore" : "all",
+            "gifts" : "all",
+            "team" : "all",
+            "traditions" : "all",
         },
 }
 
