@@ -32,7 +32,7 @@ class StaticView(View):
 
     def get(self, request):
         if request.user.is_authenticated or (request.get_full_path() == reverse('index')):
-            return self.render(request, "wedding/pages/" + self.template, {})
+            return render(request, "wedding/pages/" + self.template, {})
         else:
             return redirect_to_login(request.get_full_path())
 
@@ -43,7 +43,7 @@ class StaticViewNoAuth(View):
     template = None
 
     def get(self, request):
-        return self.render(request, "wedding/pages/" + self.template, {})
+        return render(request, "wedding/pages/" + self.template, {})
 
 class RSVPView(View):
     """
@@ -78,7 +78,7 @@ class RSVPView(View):
 
 
 
-            return self.render(request, 'wedding/pages/rsvp.html', {'formset': formset})
+            return render(request, 'wedding/pages/rsvp.html', {'formset': formset})
         else:
             return redirect_to_login(request.get_full_path())
 
@@ -96,7 +96,7 @@ class RSVPView(View):
                         form.fields[field].disabled = True
 
             rsvp_form = RSVPForm(instance=rsvp, prefix='rsvp') if rsvp else None
-            return self.render(request, 'wedding/pages/rsvp.html',
+            return render(request, 'wedding/pages/rsvp.html',
                 {
                     'formset': formset,
                     'rsvp_form': rsvp_form,
