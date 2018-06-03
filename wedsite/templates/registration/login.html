@@ -48,9 +48,10 @@ Login
                 <h2>RSVP</h2>
                     <p>
                         Welcome to our wedding site!
-                        <br><br>
-                        <a class="btn btn-primary" href="{% url 'create-account' %}">Submit your RSVP</a>
-                        <br><br>
+                        <br>
+                        <form method="get" action="{% url 'create-account' %}">
+                        <input type="submit" class="login-button" value="Submit your RSVP" />
+                        <br>
                         Whether you can join us for the wedding or not, we need to find your RSVP to allow access to the more personal parts of the website.
                     </p>
             </div>
