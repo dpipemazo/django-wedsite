@@ -20,20 +20,7 @@ from django.views.decorators.debug import sensitive_post_parameters
 from django.http import HttpResponseRedirect
 from wedsite.conf import settings
 
-class WedsiteView(View):
-    """
-    Wedsite view. Does pretty much the same thing as a regular view but makes
-    sure that the wedsite info gets passed along to the template
-    """
-
-    def render(self, request, template, json):
-        """
-        Render a page
-        """
-        template_json = { **json, **settings.WEDSITE_JSON }
-        return render(request, template, template_json) 
-
-class StaticView(WedsiteView):
+class StaticView(View):
     """
     Basic static view. Shows a template back
 
@@ -49,7 +36,7 @@ class StaticView(WedsiteView):
         else:
             return redirect_to_login(request.get_full_path())
 
-class StaticViewNoAuth(WedsiteView):
+class StaticViewNoAuth(View):
     """
     Basic static view. Shows a template back
     """
@@ -58,7 +45,7 @@ class StaticViewNoAuth(WedsiteView):
     def get(self, request):
         return self.render(request, "wedding/pages/" + self.template, {})
 
-class RSVPView(WedsiteView):
+class RSVPView(View):
     """
     RSVP View.
 
