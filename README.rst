@@ -19,49 +19,47 @@ overriden in your main web app.
 Quick setup
 -----------
 
-To test out the package and see the default site, you can simply do the
-following:
+Clone the example app
+~~~~~~~~~~~~~~~~~~~~~
 
-Add app to ``installed_apps``:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-In your site’s ``settings.py`` file you’ll need to add the following
-apps
+The easiest way to get up and running is to clone the `example wedsite
+app <https://github.com/dpipemazo/wedsite>`__ and then make
+modifications from there as needed
 
 ::
 
-    import wedsite
+   git clone https://github.com/dpipemazo/wedsite.git
 
-    ...
+If you prefer not to clone, it’s recommended to take a look at and/or
+copy the
+```settings.py`` <https://github.com/dpipemazo/wedsite/blob/master/example_wedsite/settings.py>`__
+and
+```urls.py`` <https://github.com/dpipemazo/wedsite/blob/master/example_wedsite/urls.py>`__
+from the provided `example wedsite
+app <https://github.com/dpipemazo/wedsite>`__. These files configure all
+of your example app’s setup to get the basic default wedsite up and
+running.
 
-    INSTALLED_APPS = [
-        ...
-        'wedsite',
-        'easy_maps',
-        'raven.contrib.django.raven_compat',
-        'tz_detect',
-        'django_inlinecss',
-        ...
-    ]
+Initialize Database
+~~~~~~~~~~~~~~~~~~~
 
-Add URLS
-~~~~~~~~
-
-Modify your ``urls.py`` to contain the ``wedsite`` URLS.
+In order to run migrations and initialize the database, you will first
+need to set a ``SECRET_KEY`` by doing the following in root
+``django-wedsite`` directory:
 
 ::
 
-    import wedsite
+   $ echo "DJANGO_SECRET_KEY='$(python -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())')'" >> .env
+   $ source .env
+   $ export DJANGO_SECRET_KEY
 
-    ...
+Now, all you need to do to initialize the database is run the django
+migrations, and while you’re at it, create a superuser for later use.
 
-    urlpatterns = [
+::
 
-        # Wedding app will be at top-levels
-        url(r'', include('wedsite.urls')),
-
-        ...
-    ]
+   $ python manage.py migrate
+   $ python manage.py createsuperuser
 
 Launch
 ~~~~~~
@@ -81,20 +79,21 @@ code:
 
 ::
 
-    from wedsite.settings import DEFAULT_JSON
+   from copy import deepcopy
+   from wedsite.settings import DEFAULT_JSON
 
-    CUSTOMIZED_JSON = DEFAULT_JSON
-    CUSTOMIZED_JSON['broom']['last_name'] = "Pandas"
+   CUSTOMIZED_JSON = deepcopy(DEFAULT_JSON)
+   CUSTOMIZED_JSON['broom']['last_name'] = "Pandas"
 
 And now in your ``settings.py`` file, add the following
 
 ::
 
-    from myapp.wedsite_conf import CUSTOMIZED_JSON
+   from myapp.wedsite_conf import CUSTOMIZED_JSON
 
-    ...
+   ...
 
-    WEDSITE_JSON = CUSTOMIZED_JSON
+   WEDSITE_JSON = CUSTOMIZED_JSON
 
 You should now see that the Broom’s last name on the landing page is
 “Pandas”. The concept for customizing the whole site would then be to
@@ -103,31 +102,78 @@ find that everything you need is in there. See
 ```settings.py`` <wedsite/settings.py>`__ for all of the fields you can
 change.
 
-Page access restriction
-~~~~~~~~~~~~~~~~~~~~~~~
+Pages and access restriction
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-By default, the only page that restricts access to logged-in users is
-the RSVP page. This can be easily overriden with another setting
-modification.
+Pages
+^^^^^
 
-In your wedsite.conf, you can add
+The site offers the following pages:
+
++---------------------+------------------------------------------------+
+| Page                | Description                                    |
++=====================+================================================+
+| index               | Main landing page                              |
++---------------------+------------------------------------------------+
+| story               | Cute stories about the couple                  |
++---------------------+------------------------------------------------+
+| wedding             | Info about the ceremony                        |
++---------------------+------------------------------------------------+
+| events              | Info about the schedule for the days           |
+|                     | surrounding the wedding                        |
++---------------------+------------------------------------------------+
+| travel              | Info about airports, hotels, traffic, etc.     |
++---------------------+------------------------------------------------+
+| explore             | Info about what to do in the wedding city      |
++---------------------+------------------------------------------------+
+| gifts               | Info about registries, gifts, donations, etc.  |
++---------------------+------------------------------------------------+
+| team                | Info about the wedding team                    |
++---------------------+------------------------------------------------+
+| contact             | Who your guests should contact if they need    |
+|                     | help                                           |
++---------------------+------------------------------------------------+
+| traditions          | Info about any cultural traditions you’d like  |
+|                     | your guests to know                            |
++---------------------+------------------------------------------------+
+
+Page Access
+^^^^^^^^^^^
+
+All of the above pages can have three access settings, set in the
+``access`` parameter of the ``WEDSITE_JSON`` in ``settings.py``
+
++----------------------------+-----------------------------------------+
+| Setting                    | Description                             |
++============================+=========================================+
+| ``"all"``                  | Everyone can view the page. The page is |
+|                            | public                                  |
++----------------------------+-----------------------------------------+
+| ``"login"``                | Only authenticated and logged-in users  |
+|                            | can view the page. The page is private  |
++----------------------------+-----------------------------------------+
+| ``False``                  | The page is not included in the site.   |
+|                            | Nobody can view the page and it is      |
+|                            | removed from the navbar, site URLS,     |
+|                            | etc.                                    |
++----------------------------+-----------------------------------------+
+
+In your ``wedsite_conf.py``, you can add
 
 ::
 
-    from wedsite.settings import DEFAULT_ACCESS
+   CUSTOMIZED_JSON['access']['team'] = 'login'
 
-    CUSTOMIZED_ACCESS = DEFAULT_ACCESS
-    CUSTOMIZED_ACCESS['team'] = False
+to make the team page or any other page login-only.
 
-And now in your ``settings.py`` file, add the following
+If you’d like to remove a page altogether from the site, you can add
 
 ::
 
-    from myapp.wedsite_conf import CUSTOMIZED_ACCESS
+   CUSTOMIZED_JSON['access']['contact'] = False
 
-    ...
-
-    WEDSITE_ACCESS = CUSTOMIZED_ACCESS
+There is one special page, the RSVP page, which cannot be removed from
+the site and is always restricted to only logged-in users.
 
 Package Architecture
 --------------------
@@ -212,8 +258,9 @@ A custom account creation view has been built such that only users who
 have a valid RSVP in the system can create an account. The site
 currently checks a user’s last name and the numerical digits of their
 address for a match in the “unclaimed” RSVPs in the database. An
-“uncliamed” RSVP is an RSVP which does not have a Foreign Key to a user.
-The admin of the site needs to manually enter all of their
+“unclaimed” RSVP is an RSVP which does not have a Foreign Key to a user.
+The admin of the site needs to manually enter all of their guests into
+the database as described below.
 
 RSVP Models
 ^^^^^^^^^^^
@@ -252,21 +299,29 @@ Each RSVP Person has the following important fields
 | ``name`` | Person’s Name |
 +----------+---------------+
 
-Along with the above fields, the RSVP person model should and can be
+Along with the above fields, the RSVP person model can and should be
 modified to contain any/all of the information you’d like to gather from
 the person when they submit their response on the web site. The default
 RSVP person contains the following additional fields
 
-| Field \| Type \| Description \|
-| ``is_attending_rehearsal`` \| Boolean \| Whether or not they’re
-  attending the rehearsal dinner \|
-| ``is_attending_wedding`` \| Boolean \| Whether or not they’re
-  attending the wedding \|
-| ``is_child`` \| Boolean \| Whether or not the guest counts as a child
-  \|
-| ``dietary_*`` \| Boolean \| Various dietary restrictions \|
-| ``table`` \| Integer \| Currently unused, but would be nice for
-  building a seating assignment chart \|
++------------------+---------------+-----------------------------------+
+| Field            | Type          | Description                       |
++==================+===============+===================================+
+| ``is_attending_r | Boolean       | Whether or not they’re attending  |
+| ehearsal``       |               | the rehearsal dinner              |
++------------------+---------------+-----------------------------------+
+| ``is_attending_w | Boolean       | Whether or not they’re attending  |
+| edding``         |               | the wedding                       |
++------------------+---------------+-----------------------------------+
+| ``is_child``     | Boolean       | Whether or not the guest counts   |
+|                  |               | as a child                        |
++------------------+---------------+-----------------------------------+
+| ``dietary_*``    | Boolean       | Various dietary restrictions      |
++------------------+---------------+-----------------------------------+
+| ``table``        | Integer       | Currently unused, but would be    |
+|                  |               | nice for building a seating       |
+|                  |               | assignment chart                  |
++------------------+---------------+-----------------------------------+
 
 Loading RSVPs into the site
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -277,7 +332,7 @@ them. To do this, log into the admin UI at
 
 ::
 
-    https://my_site/admin
+   https://my_site/admin
 
 using your superuser credentials. Then go to the ``RSVP`` page and you
 can manually add RSVPs. This can indeed be a bit tedious; it would be
