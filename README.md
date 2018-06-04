@@ -14,46 +14,22 @@ in your main web app.
 
 ## Quick setup
 
-To test out the package and see the default site, you can simply do the
-following:
+### Clone the example app
 
-### Add app to `installed_apps`:
-
-In your site's `settings.py` file you'll need to add the following apps
-
-```
-import wedsite
-
-...
-
-INSTALLED_APPS = [
-    ...
-    'wedsite',
-    'easy_maps',
-    'raven.contrib.django.raven_compat',
-    'tz_detect',
-    'django_inlinecss',
-    ...
-]
-```
-
-### Add URLS
-
-Modify your `urls.py` to contain the `wedsite` URLS.
+The easiest way to get up and running is to clone the
+[example wedsite app](https://github.com/dpipemazo/wedsite) and then make
+modifications from there as needed
 
 ```
-import wedsite
-
-...
-
-urlpatterns = [
-
-    # Wedding app will be at top-levels
-    url(r'', include('wedsite.urls')),
-
-    ...
-]
+git clone https://github.com/dpipemazo/wedsite.git
 ```
+
+If you prefer not to clone, it's recommended to take a look at and/or copy
+the [`settings.py`](https://github.com/dpipemazo/wedsite/blob/master/example_wedsite/settings.py)
+and [`urls.py`](https://github.com/dpipemazo/wedsite/blob/master/example_wedsite/urls.py)
+from the provided [example wedsite app](https://github.com/dpipemazo/wedsite). These
+files configure all of your example app's setup to get the basic default
+wedsite up and running.
 
 ### Initialize Database
 
@@ -108,15 +84,50 @@ as you'd like to your `CUSTOMIZED_JSON`. You should find that everything you
 need is in there. See [`settings.py`](wedsite/settings.py) for all of the
 fields you can change.
 
-### Page access restriction
+### Pages and access restriction
 
-By default, the only page that restricts access to logged-in users is the
-RSVP page. This can be easily overriden with another setting modification.
+#### Pages
+
+The site offers the following pages:
+
+| Page | Description |
+|------|-------------|
+| index | Main landing page |
+| story | Cute stories about the couple |
+| wedding | Info about the ceremony |
+| events | Info about the schedule for the days surrounding the wedding |
+| travel | Info about airports, hotels, traffic, etc. |
+| explore | Info about what to do in the wedding city |
+| gifts | Info about registries, gifts, donations, etc. |
+| team | Info about the wedding team |
+| contact | Who your guests should contact if they need help |
+| traditions | Info about any cultural traditions you'd like your guests to know |
+
+#### Page Access
+
+All of the above pages can have three access settings, set in
+the `access` parameter of the `WEDSITE_JSON` in `settings.py`
+
+| Setting | Description |
+|---------|-------------|
+| `"all"` | Everyone can view the page. The page is public |
+| `"login"` | Only authenticated and logged-in users can view the page. The page is private |
+| `False` | The page is not included in the site. Nobody can view the page and it is removed from the navbar, site URLS, etc. |
 
 In your `wedsite_conf.py`, you can add
 ```
-CUSTOMIZED_JSON['team'] = 'login'
+CUSTOMIZED_JSON['access']['team'] = 'login'
 ```
+
+to make the team page or any other page login-only.
+
+If you'd like to remove a page altogether from the site, you can add
+```
+CUSTOMIZED_JSON['access']['contact'] = False
+```
+
+There is one special page, the RSVP page, which cannot be removed from the
+site and is always restricted to only logged-in users. 
 
 ## Package Architecture
 
